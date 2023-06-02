@@ -1,0 +1,28 @@
+name: Python Demo
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        environment: [development, production]
+
+    environment: ${{ matrix.environment }}
+
+    steps:
+    - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+
+    - uses: actions/setup-python@3542bca2639a428e1796aaa6a2ffef0c0f575566
+      with:
+        python-version: 3.8
+
+    - run: |
+        python main.py
+      env:
+        SECRET: ${{ secrets.SECRET }}
+        VARIABLE: ${{ vars.VARIABLE }}
